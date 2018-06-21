@@ -45,8 +45,9 @@ router.post('/', function (req, res, next) {
         }
     })
     } else {
-        var err = new Error('All fields required.')
+        var err = new Error('poop')
         err.status = 400
+        console.log(err.message)
         return next(err)
     }
 })
