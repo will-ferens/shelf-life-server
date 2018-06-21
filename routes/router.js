@@ -5,10 +5,10 @@ const User = require('../models/user')
 router.post('/', function (req, res, next) {
     // confirm that user typed same password twice
     if (req.body.password !== req.body.passwordConf) {
-        var err = new Error('Passwords do not match.');
-        err.status = 400;
-        res.send("passwords dont match");
-        return next(err);
+        var err = new Error('Passwords do not match.')
+        err.status = 400
+        res.send("passwords dont match")
+        return next(err)
     }
 
     if (req.body.email &&
@@ -36,7 +36,7 @@ router.post('/', function (req, res, next) {
     
     User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
         if (error || !user) {
-            var err = new Error('Wrong email or password.');
+            var err = new Error('Wrong email or password.')
             err.status = 401
             return next(err)
         } else {
@@ -50,3 +50,5 @@ router.post('/', function (req, res, next) {
         return next(err)
     }
 })
+
+module.exports = router
