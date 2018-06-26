@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 
+
 router.post('/register', function (req, res, next) {
     // confirm that user typed same password twice
     if(req.body.password === req.body.passwordConf){
@@ -40,7 +41,7 @@ router.post('/register', function (req, res, next) {
 
 router.post('/auth', function (req, res, next){
     
-    User.search(req.body.logemail, req.body.logpassword, function(error, user){
+    User.search(req.body.email, req.body.password, function(error, user){
         
         if(error || !user) {
             let err = new Error('Wrong email or password.')
@@ -48,9 +49,12 @@ router.post('/auth', function (req, res, next){
             return next(err)
         } else {
             req.session.userId = user._id
-            return res.send('fuuuuck yeah')
+            console.log(req.session.userId)
+            return res.send(req.session.userId)
         }
     })
 })
+
+
 
 module.exports = router

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
-
+const cors = require('cors')
 //connect to MongoDB
 mongoose.connect('mongodb://localhost/shelflife')
 const db = mongoose.connection
@@ -20,6 +20,8 @@ db.once('open', function () {
 app.get('/', (req, res) => {
     res.json('poop')
 })
+
+app.use(cors())
 
 app.use(session({
     secret: 'work hard',

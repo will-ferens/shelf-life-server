@@ -45,6 +45,7 @@ UserSchema.statics.search = function (email, password, callback){
                 }
             })
         })
+        
 }
 
 
