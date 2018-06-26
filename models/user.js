@@ -25,11 +25,11 @@ const UserSchema = new mongoose.Schema({
 })
 
 
-const User = mongoose.model('User', UserSchema)
 
-UserSchema.method.search = function (email, password, callback){
+
+UserSchema.statics.search = function (email, password, callback){
     
-    User.findOne({ email: email })
+    this.findOne({ email: email })
         .exec(function (err, user){
             if(err){
                 return callback(err)
@@ -61,9 +61,6 @@ UserSchema.pre('save', function(next){
 } )
 
 
-User.find(function (err, users) {
-    if(err) return console.error(err)
-    console.log(users)
-})
 
+const User = mongoose.model('User', UserSchema)
 module.exports = User

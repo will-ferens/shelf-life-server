@@ -21,6 +21,14 @@ app.get('/', (req, res) => {
     res.json('poop')
 })
 
+app.use(session({
+    secret: 'work hard',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+        mongooseConnection: db
+    })
+}))
 // parse incoming requests
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))

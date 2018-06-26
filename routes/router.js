@@ -35,17 +35,22 @@ router.post('/register', function (req, res, next) {
                 res.end()
             }
         })
-    } else if (req.body.logemail && req.body.logpassword){
-        user.search(function(){
-            console.log('ass')
-        })
-    }
+    } 
 })
 
-// router.post('/auth', function (req, res, next){
-//     User.statics.search = function search () {
-//         res.send('poop')
-//     }
-// })
+router.post('/auth', function (req, res, next){
+    
+    User.search(req.body.logemail, req.body.logpassword, function(error, user){
+        
+        if(error || !user) {
+            let err = new Error('Wrong email or password.')
+            err.status = 401
+            return next(err)
+        } else {
+            req.session.userId = user._id
+            return res.send('fuuuuck yeah')
+        }
+    })
+})
 
 module.exports = router
