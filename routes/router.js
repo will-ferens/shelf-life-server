@@ -2,14 +2,9 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 
-router.post('/', function (req, res, next) {
+router.post('/register', function (req, res, next) {
     // confirm that user typed same password twice
-    console.log(req.body)
-    if (req.body.email &&
-        req.body.username &&
-        req.body.password &&
-        req.body.passwordConf) {
-    
+    if(req.body.password === req.body.passwordConf){
         const userData = {
             email: req.body.email,
             username: req.body.username,
@@ -40,7 +35,17 @@ router.post('/', function (req, res, next) {
                 res.end()
             }
         })
-    } 
+    } else if (req.body.logemail && req.body.logpassword){
+        user.search(function(){
+            console.log('ass')
+        })
+    }
 })
+
+// router.post('/auth', function (req, res, next){
+//     User.statics.search = function search () {
+//         res.send('poop')
+//     }
+// })
 
 module.exports = router

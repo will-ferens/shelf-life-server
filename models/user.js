@@ -27,6 +27,28 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema)
 
+UserSchema.method.search = function (email, password, callback){
+    
+    User.findOne({ email: email })
+        .exec(function (err, user){
+            if(err){
+                return callback(err)
+            } else if (!user) {
+                let err = new Error('User not found.')
+                return callback(err)
+            }
+            bcrypt.compare(password, user.password, function(err, result){
+                if(result === true){
+                    return callback(null, user)
+                } else {
+                    return callback()
+                }
+            })
+        })
+}
+
+
+
 UserSchema.pre('save', function(next){
     const user = this
     bcrypt.hash(user.password, 10, function(err, hash){
@@ -43,4 +65,5 @@ User.find(function (err, users) {
     if(err) return console.error(err)
     console.log(users)
 })
+
 module.exports = User
