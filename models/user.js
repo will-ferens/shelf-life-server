@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const Schema = mongoose.Schema
+const Book  = require('./book')
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
+    _id: Schema.Types.ObjectId,
     email: {
         type: String,
         unique: true,
@@ -21,7 +24,8 @@ const UserSchema = new mongoose.Schema({
     passwordConf: {
         type: String,
         required: true,
-    }
+    },
+    booksOnShelf: [{ type: Schema.Types.ObjectId, ref:'Book' }]
 })
 
 

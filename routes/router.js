@@ -50,7 +50,7 @@ router.post('/auth', function (req, res, next){
         } else {
             req.session.userId = user._id
             console.log(req.session.userId)
-            return res.send(req.session.userId)
+            return res.json({message: 'Success', userId: req.session.userId})
         }
     })
 })
