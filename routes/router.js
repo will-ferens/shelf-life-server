@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
-
+const Book = require('../models/book')
 
 router.post('/register', function (req, res, next) {
     // confirm that user typed same password twice
@@ -53,6 +53,19 @@ router.post('/auth', function (req, res, next){
             return res.json({message: 'Success', userId: req.session.userId})
         }
     })
+})
+
+router.post('/addbook', function(req, res, next){
+    const bookToBeAdded = new Book()
+    
+    bookToBeAdded.title = req.body.title
+    bookToBeAdded.author = req.body.author
+    bookToBeAdded.publisher = req.body.publisher
+    bookToBeAdded.cover = req.body.cover
+    bookToBeAdded.pageCount = req.body.pageCount
+
+    console.log(bookToBeAdded)
+    res.json({message: 'success'})
 })
 
 
