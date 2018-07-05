@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 const Book = require('../models/book')
+const mongoose = require('mongoose')
 
 router.post('/register', function (req, res, next) {
     // confirm that user typed same password twice
@@ -56,15 +57,28 @@ router.post('/auth', function (req, res, next){
 })
 
 router.post('/addbook', function(req, res, next){
-    const bookToBeAdded = new Book()
+    const bookToBeAdded = new Book({
+        _id: new mongoose.Types.ObjectId()
+    })
     
     bookToBeAdded.title = req.body.title
     bookToBeAdded.author = req.body.author
     bookToBeAdded.publisher = req.body.publisher
     bookToBeAdded.cover = req.body.cover
     bookToBeAdded.pageCount = req.body.pageCount
+    
+    const userId = req.body.userId
 
-    console.log(bookToBeAdded)
+    bookToBeAdded.save(function(err){
+        if(err) return handleError(err)
+        
+        User.findById(userId, function(err, user){
+            user.booksOnShelf.push(bookToBeAdded._id)
+            console.log(Book.find())
+        })
+    })
+
+
     res.json({message: 'success'})
 })
 

@@ -25,7 +25,7 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
-    booksOnShelf: [{ type: Schema.Types.ObjectId, ref:'Book' }]
+    booksOnShelf: [{ type: Schema.Types.ObjectId, ref:'book' }]
 })
 
 
