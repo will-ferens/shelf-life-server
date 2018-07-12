@@ -9,7 +9,8 @@ const BookSchema = new Schema({
     publisher: {type: String, required: false},
     cover: {type: String, required: false},
     ISBN13: {type: String, required: false},
-    pageCount: {type: Number, required: false}
+    pageCount: {type: Number, required: false},
+    readState: {type: String, default: 'ToRead'}
 })
 
 const Book = mongoose.model('Book', BookSchema)

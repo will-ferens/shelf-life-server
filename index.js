@@ -39,7 +39,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 // include routes
 const routes = require('./routes/router')
+const bookRoutes = require('./routes/books')
+
 app.use('/', routes)
+app.use('/books', bookRoutes)
 
 app.use(session({
     secret: 'poop',

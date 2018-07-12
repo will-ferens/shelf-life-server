@@ -5,6 +5,8 @@ const Book = require('../models/book')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 
+
+
 router.post('/register',  (req, res, next) => {
     // confirm that user typed same password twice
     User.find({ email: req.body.email })
@@ -41,7 +43,7 @@ router.post('/register',  (req, res, next) => {
     
 })
 
-router.post('/auth', function (req, res, next){
+router.post('/login', function (req, res, next){
     
     User.search(req.body.email, req.body.password, (error, user) => {
         
@@ -56,53 +58,35 @@ router.post('/auth', function (req, res, next){
             }, process.env.JWT_SECRET, {
                 expiresIn: "1hr"
             })
-            return res.json({
-                message: 'Success',
-                userId: user._id,
-                token: token
-            })
-        }
-    })
-})
+            
+            const userId = user._id
 
-router.post('/addbook', (req, res, next) => {
-    const bookToBeAdded = new Book({
-        _id: new mongoose.Types.ObjectId(),
-        title :req.body.title,
-        author :req.body.author,
-        publisher :req.body.publisher,
-        cover :req.body.cover,
-        pageCount :req.body.pageCount,
-        user: req.body.userId
-    })
-    const userId = req.body.userId
-    bookToBeAdded.save()
-        .then(book => {
-            Book.find({}).populate(userId)
+            Book.find({}).populate(`${userId}`)
                 .exec()
                 .then(result => {
-                    
-                    res.status(200).json({message: 'success'})
+                    if(!result) {
+                        res.status(200).json({
+                            message: 'New User',
+                            userId: userId,
+                            token: token,
+                        })
+                    } else {
+                        res.status(200).json({
+                            message: 'Success',
+                            userId: userId,
+                            token: token,
+                            books: result
+                        })
+                    }
                 })
                 .catch(err => {
                     res.status(500).json({message: err})
                 })
-        })
+        }
+    })
 })
 
-router.delete('/books', (req, res, next) => {
-    Book.find({}).remove()
-        .exec()
-        .then(result => {
-            console.log(result)
-            res.status(200).json({
-                message: 'books deleted'
-            })
-        })
-        .catch(err => {
-            res.status(500).json({message: err})
-        })
-})
+
     
 
 
