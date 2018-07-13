@@ -29,7 +29,8 @@ router.post('/register',  (req, res, next) => {
                         .save()
                         .then(result => {
                             res.status(201).json({
-                                message: 'User created'
+                                message: 'User created',
+                                result: result
                             })
                         })
                         .catch(err => {
@@ -58,30 +59,12 @@ router.post('/login', function (req, res, next){
             }, process.env.JWT_SECRET, {
                 expiresIn: "1hr"
             })
-            
-            const userId = user._id
 
-            Book.find({}).populate(`${userId}`)
-                .exec()
-                .then(result => {
-                    if(!result) {
-                        res.status(200).json({
-                            message: 'New User',
-                            userId: userId,
-                            token: token,
-                        })
-                    } else {
-                        res.status(200).json({
-                            message: 'Success',
-                            userId: userId,
-                            token: token,
-                            books: result
-                        })
-                    }
-                })
-                .catch(err => {
-                    res.status(500).json({message: err})
-                })
+            res.status(200).json({
+                message: 'Success',
+                token: token
+            })
+
         }
     })
 })
