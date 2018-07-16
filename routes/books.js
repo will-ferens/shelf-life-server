@@ -8,8 +8,6 @@ const Book = require('../models/book')
 
 router.get('/', checkAuth, (req, res, next) => {
     const userId = req.userData.userId
-    const username = req.userData.username
-    console.log(userId)
     Book.find({user: userId})
         .exec()
         .then(result => {
@@ -20,7 +18,8 @@ router.get('/', checkAuth, (req, res, next) => {
                 })
             } else {
                 res.status(200).json({
-                    message: 'Add some books to get started!'
+                    message: 'Add some books to get started!',
+                    books: []
                 })
             }
             

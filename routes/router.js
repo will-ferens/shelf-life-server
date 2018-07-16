@@ -57,14 +57,9 @@ router.post('/login', function (req, res, next){
                 email: user.email,
                 userId: user._id
             }, process.env.JWT_SECRET, {
-                expiresIn: "1hr"
+                expiresIn: "1h"
             })
-
-            res.status(200).json({
-                message: 'Success',
-                token: token
-            })
-
+            res.status(200).json({message: 'Success', token: token})
         }
     })
 })
