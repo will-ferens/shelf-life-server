@@ -30,6 +30,7 @@ router.get('/', checkAuth, (req, res, next) => {
 })
 
 router.post('/addbook', checkAuth, (req, res, next) => {
+    
     const bookToBeAdded = new Book({
         _id: new mongoose.Types.ObjectId(),
         title :req.body.title,
@@ -39,7 +40,8 @@ router.post('/addbook', checkAuth, (req, res, next) => {
         pageCount :req.body.pageCount,
         user: req.userData.userId
     })
-    const userId = req.body.userId 
+    const userId = req.body.userId
+    console.log(bookToBeAdded)
     bookToBeAdded.save()
         .then(book => {
             Book.find({user: userId})
