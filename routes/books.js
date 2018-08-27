@@ -12,10 +12,7 @@ router.get('/', checkAuth, (req, res, next) => {
         .exec()
         .then(result => {
             if(result.length >= 1){
-                res.status(200).json({
-                    message: 'Welcome back!',
-                    books: result
-                })
+                res.status(200).json(result)
             } else {
                 res.status(200).json({
                     message: 'Add some books to get started!',
@@ -38,16 +35,25 @@ router.post('/addbook', checkAuth, (req, res, next) => {
         publisher :req.body.publisher,
         cover :req.body.cover,
         pageCount :req.body.pageCount,
+        description: req.body.description, 
         user: req.userData.userId
     })
     const userId = req.body.userId
     console.log(bookToBeAdded)
+    
     bookToBeAdded.save()
         .then(book => {
             Book.find({user: userId})
                 .exec()
                 .then(result => {
-                    res.status(200).json(result)
+                    res.status(201).json({
+                        message: "book created",
+                        book: {
+                            _id: result._id,
+                            title: result.title,
+                            author: result.author
+                        }
+                    })
                 })
                 .catch(err => {
                     res.status(500).json({message: err})
@@ -55,7 +61,7 @@ router.post('/addbook', checkAuth, (req, res, next) => {
         })
 })
 
-router.patch('/:bookId', checkAuth, (req, res, next) => {
+router.put('/:bookId', checkAuth, (req, res, next) => {
     const id = req.params.bookId
     const readState = req.body.readState
     const userId = req.userData.userId
