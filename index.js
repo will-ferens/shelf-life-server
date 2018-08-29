@@ -7,8 +7,6 @@ const MongoStore = require('connect-mongo')(session)
 const cors = require('cors')
 require('dotenv').config()
 //connect to MongoDB
-const pw = encodeURIComponent(process.env.DB_PASSWORD)
-const user = encodeURIComponent(process.env.BIG_WILLY_STYLE)
 
 const uri = process.env.MONGOLAB_URI
 mongoose.connect(uri)
