@@ -7,6 +7,10 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "0.6.12", 
+    "npm": "1.1.4"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
