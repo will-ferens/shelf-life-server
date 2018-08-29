@@ -49,14 +49,6 @@ const bookRoutes = require('./routes/books')
 app.use('/', routes)
 app.use('/books', bookRoutes)
 
-app.use(session({
-    secret: `${process.env.DB_SECRET}`,
-    resave: true,
-    saveUninitialized: false,
-    store: new MongoStore({
-        mongooseConnection: db
-    })
-}))
 
 // listen on port 3000
 app.listen(process.env.PORT || 3001, function () {
