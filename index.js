@@ -59,6 +59,6 @@ app.use(session({
 }))
 
 // listen on port 3000
-app.listen(3001, function () {
+app.listen(process.env.PORT || 3001, function () {
     console.log('Express app listening on port 3001')
 })
