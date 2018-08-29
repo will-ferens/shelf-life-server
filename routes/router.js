@@ -56,7 +56,7 @@ router.post('/login', function (req, res, next){
             const token = jwt.sign({
                 email: user.email,
                 userId: user._id
-            }, process.env.JWT_SECRET, {
+            }, "poopypoopybuttholes6969", {
                 expiresIn: "1h"
             })
             res.status(200).json({message: 'Success', token: token})
