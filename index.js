@@ -10,7 +10,7 @@ require('dotenv').config()
 const pw = encodeURIComponent(process.env.DB_PASSWORD)
 const user = encodeURIComponent(process.env.BIG_WILLY_STYLE)
 
-const uri = process.env.DB_ADDRESS
+const uri = `mongodb://${user}:${pw}@ds233228.mlab.com:33228/shelf-life`
 mongoose.connect(uri)
 
 const db = mongoose.connection
