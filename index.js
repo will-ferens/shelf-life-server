@@ -7,7 +7,13 @@ const MongoStore = require('connect-mongo')(session)
 const cors = require('cors')
 require('dotenv').config()
 //connect to MongoDB
-mongoose.connect('mongodb://localhost/shelflife')
+const pw = encodeURIComponent(process.env.DB_PASSWORD)
+const user = encodeURIComponent(process.env.BIG_WILLY_STYLE)
+
+console.log(process.env.DB_ADDRESS)
+const uri = `mongodb://${user}:${pw}@ds233228.mlab.com:33228/shelf-life`
+mongoose.connect(uri)
+
 const db = mongoose.connection
 
 //handle mongo error
@@ -25,7 +31,7 @@ app.get('/', (req, res) => {
 app.use(cors())
 
 app.use(session({
-    secret: 'work hard',
+    secret: `${process.env.DB_SECRET}`,
     resave: true,
     saveUninitialized: false,
     store: new MongoStore({
@@ -45,7 +51,7 @@ app.use('/', routes)
 app.use('/books', bookRoutes)
 
 app.use(session({
-    secret: 'poop',
+    secret: `${process.env.DB_SECRET}`,
     resave: true,
     saveUninitialized: false,
     store: new MongoStore({
