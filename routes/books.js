@@ -6,10 +6,9 @@ const checkAuth = require('../middleware/check-auth')
 const User = require('../models/user')
 const Book = require('../models/book')
 
-router.get('/', checkAuth, (req, res, next) => {
+router.get('/', checkAuth, (req, res) => {
     const userId = req.userData.userId
     
-    res.send(userId)
     Book.find({user: userId})
         .exec()
         .then(result => {
@@ -20,7 +19,7 @@ router.get('/', checkAuth, (req, res, next) => {
         })
 })
 
-router.post('/addbook', checkAuth, (req, res, next) => {
+router.post('/addbook', checkAuth, (req, res) => {
     
     const bookToBeAdded = new Book({
         _id: new mongoose.Types.ObjectId(),
@@ -55,7 +54,7 @@ router.post('/addbook', checkAuth, (req, res, next) => {
         })
 })
 
-router.put('/:bookId', checkAuth, (req, res, next) => {
+router.put('/:bookId', checkAuth, (req, res) => {
     const id = req.params.bookId
     const readState = req.body.readState
     const userId = req.userData.userId
@@ -74,12 +73,11 @@ router.put('/:bookId', checkAuth, (req, res, next) => {
         })
 })
 
-router.delete('/:bookId', checkAuth, (req, res, next) => {
+router.delete('/:bookId', checkAuth, (req, res) => {
     const id = req.params.bookId
     Book.remove({_id: id})
         .exec()
         .then(result => {
-            console.log(result)
             res.status(200).json({
                 message: 'book deleted',
                 result: result
