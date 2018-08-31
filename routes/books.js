@@ -8,7 +8,7 @@ const Book = require('../models/book')
 
 router.get('/', checkAuth, (req, res) => {
     const userId = req.userData.userId
-    
+
     Book.find({user: userId})
         .exec()
         .then(result => {
