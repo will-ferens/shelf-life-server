@@ -8,8 +8,9 @@ const cors = require('cors')
 require('dotenv').config()
 //connect to MongoDB
 
-const uri = process.env.MONGOLAB_URI
-mongoose.connect(uri)
+// const uri = process.env.MONGOLAB_URI
+// mongoose.connect(uri)
+mongoose.connect('mongodb://localhost:27017/shelf-life')
 
 const db = mongoose.connection
 
@@ -23,6 +24,7 @@ db.once('open', function () {
 
 app.get('/', (req, res) => {
     res.json('hello world  🌈')
+
 })
 
 app.use(cors())
@@ -50,5 +52,5 @@ app.use('/books', bookRoutes)
 
 // listen on port 3000
 app.listen(process.env.PORT || 3001, function () {
-    console.log('Express app listening on port 3001')
+    console.log('Express app listening on port 3001, ')
 })

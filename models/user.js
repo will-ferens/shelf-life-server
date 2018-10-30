@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const Schema = mongoose.Schema
 const Book  = require('./book')
+const ViewedBook = require('./viewed')
 
 const UserSchema = new Schema({
     _id: Schema.Types.ObjectId,
@@ -25,7 +26,9 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
-    booksOnShelf: [{ type: Schema.Types.ObjectId, ref:'Book' }]
+    booksOnShelf: [{ type: Schema.Types.ObjectId, ref:'Book' }],
+    viewedBooks: [{ type: Schema.Types.ObjectId, ref: 'ViewedBook' }],
+    likedBooks: [{ type: Schema.Types.ObjectId, ref: 'Book' }]
 })
 
 

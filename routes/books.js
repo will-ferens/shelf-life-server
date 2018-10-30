@@ -5,6 +5,7 @@ const checkAuth = require('../middleware/check-auth')
 
 const User = require('../models/user')
 const Book = require('../models/book')
+const ViewedBook = require('../models/viewed')
 
 router.get('/', checkAuth, (req, res) => {
     const userId = req.userData.userId
@@ -19,6 +20,41 @@ router.get('/', checkAuth, (req, res) => {
         })
 })
 
+router.post('/view', checkAuth, (req, res) => {
+
+    const viewedBook = new Book({
+        _id: new mongoose.Types.ObjectId(),
+        title :req.body.title,
+        author :req.body.author,
+        publisher :req.body.publisher,
+        cover :req.body.cover,
+        pageCount :req.body.pageCount,
+        description: req.body.description, 
+        user: req.userData.userId
+    })
+    const userId = req.body.userId
+    console.log(viewedBook)
+    viewedBook.save()
+        .then(book => {
+            ViewedBook.find({user: userId})
+                .exec()
+                .then(result => {
+                    res.status(201).json({
+                        message: "book viewed",
+                        book: {
+                            _id: result.id,
+                            title: result.title,
+                            author: result.author
+                        }
+                    })
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({message: err})
+                })
+        })
+
+})
 router.post('/addbook', checkAuth, (req, res) => {
     
     const bookToBeAdded = new Book({
@@ -53,6 +89,8 @@ router.post('/addbook', checkAuth, (req, res) => {
                 })
         })
 })
+
+
 
 router.put('/:bookId', checkAuth, (req, res) => {
     const id = req.params.bookId
